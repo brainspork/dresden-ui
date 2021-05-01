@@ -2,6 +2,7 @@ import './App.css';
 import { Switch, Route } from 'react-router-dom';
 import Toolbar from 'src/components/Toolbar';
 import Login from './components/Login';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
@@ -12,7 +13,7 @@ function App() {
           <Login></Login>
         </Route>
         <Route path="/">
-
+          <Dashboard />
         </Route>
       </Switch>
     </>

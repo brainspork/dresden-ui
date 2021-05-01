@@ -12,9 +12,9 @@ const Login: FC = (props) => {
   
   useEffect(() => {
     if (user) {
-      history.push("/");
+      history.push('/');
     }
-  }, [user]);
+  }, [user, history]);
 
   const handleSubmit = () => {
     fetch('https://localhost:44391/api/user/' + userId)
