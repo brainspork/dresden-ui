@@ -1,0 +1,23 @@
+.character {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #e7e7e7;
+  border-radius: 3px;
+  flex-grow: 1;
+
+  .character--header {
+    border: 1px solid #a7a7a7;
+    border-radius: 3px;
+    padding: 10px;
+    
+    .character--header-label {
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    p {
+      display: inline-block;
+      margin: 0;
+    }
+  }
+}
