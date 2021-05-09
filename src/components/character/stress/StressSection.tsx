@@ -57,7 +57,7 @@ const StressSection: FC<StressSectionProps> = (props) => {
   return (
     <div className='character-section'>
       <h4 className='character-section--title'>Stress</h4>
-      <StressTrack trackTitle='Physical' totalStress={props.physicalStressBoxes} takenStress={2} />
+      <StressTrack trackTitle='Physical' totalStress={props.physicalStressBoxes} takenStress={props.physicalStressTaken} />
       <StressTrack trackTitle='Mental' totalStress={props.mentalStressBoxes} takenStress={props.mentalStressTaken} />
       <StressTrack trackTitle='Social' totalStress={props.socialStressBoxes} takenStress={props.socialStressTaken} />
     </div>

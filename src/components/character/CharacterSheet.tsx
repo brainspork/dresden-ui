@@ -1,4 +1,4 @@
-import { Button, Grid } from '@material-ui/core';
+import { Grid } from '@material-ui/core';
 import clsx from 'clsx';
 import { FC, useEffect, useState } from 'react';
 import styles from './CharacterSheet.module.scss';
