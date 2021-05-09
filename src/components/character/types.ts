@@ -4,6 +4,20 @@ export enum AspectEnum {
   OTHER
 }
 
+export enum StressEnum {
+  MILD = 2,
+  MODERATE = 4,
+  SEVERE = 6,
+  EXTREME = 8
+}
+
+export enum StressCategory {
+  ANY,
+  P,
+  M,
+  S
+}
+
 export type CharacterType = {
   userId: number;
   characterId: number;
@@ -49,7 +63,8 @@ export type StuntType = {
 
 export type ConsequenceType = {
   id: number;
-  stressAmount: number;
+  stressType: StressEnum;
+  stressCategory: StressCategory;
   aspect: string;
 };
 
