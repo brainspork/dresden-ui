@@ -53,6 +53,12 @@ const CharacterSheet: FC = (_) => {
             <Grid item xs={6}>
               <StuntSection stunts={character.stunts} />
             </Grid>
+            <Grid item xs={6}>
+              <div className='character-section'>
+                <h4>Notes</h4>
+                <p>{character.notes}</p>
+              </div>
+            </Grid>
           </Grid>
         </div>
       }
