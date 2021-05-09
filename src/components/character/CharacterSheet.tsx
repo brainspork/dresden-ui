@@ -1,21 +1,19 @@
 import { Grid } from '@material-ui/core';
 import clsx from 'clsx';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
+import { useCharacterContext } from 'src/contexts/CharacterContext';
 import AspectSection from './aspects/AspectSection';
 import styles from './CharacterSheet.module.scss';
 import ConsequenceSection from './consequences/ConsequenceSection';
 import SkillSection from './skills/SkillSection';
 import StressSection from './stress/StressSection';
 import StuntSection from './stunts/StuntSection';
-import { CharacterType } from './types';
 
 const CharacterSheet: FC = (_) => {
-  const [character, setCharacter] = useState<CharacterType>();
+  const { character, setCharacterId } = useCharacterContext();
 
   useEffect(() => {
-    fetch('https://localhost:44391/api/character/1')
-      .then(res => res.json())
-      .then(res => setCharacter(res));
+    setCharacterId(1);
   }, []);
 
   return (
