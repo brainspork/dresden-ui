@@ -1,0 +1,36 @@
+.stunt-section {
+  border: 1px solid #a7a7a7;
+  border-radius: 3px;
+  padding: 10px;
+
+  .stunt-section--title {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+
+  .stunt-section--stunt {
+    margin: 10px 0;
+
+    &:not(:last-of-type) {
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e7e7e7;
+    }
+
+    .stunt-section--stunt-name {
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .stunt-section--notes {
+      border-radius: 3px;
+      background-color: #f7f7f7;
+      padding: 10px;
+      margin-top: 10px;
+
+      .stunt-section--note-title {
+        font-size: .75rem;
+        font-style: italic;
+      }
+    }
+  }
+}

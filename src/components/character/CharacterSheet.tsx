@@ -4,6 +4,7 @@ import styles from './CharacterSheet.module.scss';
 import ConsequenceSection from './consequences/ConsequenceSection';
 import SkillSection from './skills/SkillBox';
 import StressSection from './stress/StressSection';
+import StuntSection from './stunts/StuntSection';
 import { CharacterType } from './types';
 
 const CharacterSheet: FC = (_) => {
@@ -48,6 +49,9 @@ const CharacterSheet: FC = (_) => {
               </Grid>
               <Grid item xs={4}>
                 <ConsequenceSection consequences={character.consequences} />
+              </Grid>
+              <Grid item xs={6}>
+                <StuntSection stunts={character.stunts} />
               </Grid>
             </Grid>
           </div>

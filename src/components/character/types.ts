@@ -58,6 +58,7 @@ export type StuntType = {
   stuntId: number;
   notes?: string;
   name: string;
+  description: string;
   cost: number;
 };
 
