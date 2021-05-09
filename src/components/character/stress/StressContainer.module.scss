@@ -1,0 +1,46 @@
+.stress-box {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 1px solid #333333;
+  border-radius: 50px;
+
+  &:not(:last-of-type) {
+    margin-right: 5px;
+  }
+
+  &.stress-box--taken {
+    background-color: red;
+  }
+
+  &.stress-box--disabled {
+    background-color: #a3a3a3;
+    border-color: #909090;
+  }
+}
+
+.stress-track {
+  display: flex;
+  flex-direction: column;
+  margin: 10px 0;
+
+  .stress-track--title {
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+
+  .stress-track--boxes {
+    display: flex;
+    flex-direction: row;
+  }
+}
+
+.stress-section {
+  border: 1px solid #a7a7a7;
+  border-radius: 3px;
+  padding: 10px;
+
+  .stress-section--title {
+    font-size: 1.25rem;
+    text-align: center;
+  }
+}

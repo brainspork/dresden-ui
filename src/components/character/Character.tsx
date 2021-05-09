@@ -2,6 +2,7 @@ import { Grid } from '@material-ui/core';
 import { FC, useEffect, useState } from 'react';
 import styles from './Character.module.scss';
 import SkillBox from './skills/SkillBox';
+import StressBox from './stress/StressBox';
 import { CharacterType } from './types';
 
 const Character: FC = (props) => {
@@ -33,6 +34,16 @@ const Character: FC = (props) => {
               </Grid>
               <Grid item xs={4}>
                 <SkillBox skills={character.skills} />
+              </Grid>
+              <Grid item xs={4}>
+                <StressBox
+                  physicalStressBoxes={character.physicalStressBoxes}
+                  physicalStressTaken={character.physicalStressTaken}
+                  mentalStressBoxes={character.mentalStressBoxes}
+                  mentalStressTaken={character.mentalStressTaken}
+                  socialStressBoxes={character.socialStressBoxes}
+                  socialStressTaken={character.socialStressTaken}
+                />
               </Grid>
             </Grid>
           </div>
