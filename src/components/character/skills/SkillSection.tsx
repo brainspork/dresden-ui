@@ -11,11 +11,11 @@ type SkillMap = {
 }
 
 const SkillBoxRow: FC<{ title: string, skills: SkillType[]}> = (props) => (
-  <div className={styles['skill-box--row']}>
-    <div className={styles['skill-box--row--title']}>{props.title}:</div>
-    <div className={styles['skill-box--row--skill-container']}>
+  <div className={styles['skill-section--row']}>
+    <h5 className={styles['skill-section--row--title']}>{props.title}:</h5>
+    <div className={styles['skill-section--row--skill-container']}>
       {props.skills.map((s, i) => (
-        <p key={i} className={styles['skill-box--row--skill']}>
+        <p key={i} className={styles['skill-section--row--skill']}>
           {s.name}
         </p>
       ))}
@@ -35,8 +35,8 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
   }, [props.skills]);
 
   return (
-    <div className={styles['skill-box']}>
-      <h5 className={styles['skill-box--title']}>Skills</h5>
+    <div className='character-section'>
+      <h4>Skills</h4>
       <SkillBoxRow title="+5" skills={skillsMap[5]} />
       <SkillBoxRow title="+4" skills={skillsMap[4]} />
       <SkillBoxRow title="+3" skills={skillsMap[3]} />

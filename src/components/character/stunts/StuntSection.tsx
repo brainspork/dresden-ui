@@ -5,8 +5,8 @@ import styles from './StuntSection.module.scss';
 const StuntSection: FC<{ stunts: StuntType[] }> = (props) => {
 
   return (
-    <div className={styles['stunt-section']}>
-      <h5 className={styles['stunt-section--title']}>Stunts &amp; Powers</h5>
+    <div className='character-section'>
+      <h4 className='character-section--title'>Stunts &amp; Powers</h4>
       {props.stunts.map((s, i) =>
         <div key={i} className={styles['stunt-section--stunt']}>
           <div className={styles['stunt-section--stunt-name']}>{s.name}</div>

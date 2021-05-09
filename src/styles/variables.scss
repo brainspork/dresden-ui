@@ -1,0 +1,12 @@
+@mixin disabled-element {
+  color: rgba(0, 0, 0, 0.26);
+  box-shadow: none;
+  background-color: rgba(0, 0, 0, 0.12);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+@mixin damage-element {
+  color: #ffffff;
+  background-color: #a51515;
+  border-color: #a51515;
+}

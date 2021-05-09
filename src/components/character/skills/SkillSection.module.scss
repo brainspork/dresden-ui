@@ -1,34 +1,21 @@
-.skill-box {
-  border: 1px solid #a7a7a7;
-  border-radius: 3px;
+.skill-section--row {
+  display: flex;
+  flex-direction: row;
   padding: 10px;
 
-  .skill-box--title {
-    font-size: 1.25rem;
-    text-align: center;
+  .skill-section--row--title {
+    margin-right: 10px;
   }
 
-  .skill-box--row {
+  .skill-section--row--skill-container {
     display: flex;
-    flex-direction: row;
-    padding: 10px;
+    flex-wrap: wrap;
 
-    .skill-box--row--title {
-      font-size: 1rem;
-      font-weight: 700;
-      margin-right: 10px;
-    }
-
-    .skill-box--row--skill-container {
-      display: flex;
-      flex-wrap: wrap;
-
-      .skill-box--row--skill {
-        &:not(:last-of-type) {
-          margin-right: 10px;
-          &::after {
-            content: ",";
-          }
+    .skill-section--row--skill {
+      &:not(:last-of-type) {
+        margin-right: 10px;
+        &::after {
+          content: ",";
         }
       }
     }

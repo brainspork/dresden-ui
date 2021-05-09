@@ -1,44 +1,35 @@
-.consequence-section {
-  border: 1px solid #a7a7a7;
-  border-radius: 3px;
-  padding: 10px;
+@import 'src/styles/variables';
 
-  .consequence-section--title {
-    font-size: 1.25rem;
-    text-align: center;
+.consequence-section--content-row {
+  display: flex;
+  flex-direction: row;
+
+  &:not(:last-of-type) {
+    margin-bottom: 5px;
   }
 
-  .consequence-section--content-row {
+  .consequence-section--content-row-title {
+    font-weight: 700;
+  }
+
+  .consequence-section--content-row-type {
+    width: calc(50% - 0.5rem);
+  }
+
+  .consequence-section--content-row-taken {
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #333333;
+    border-radius: 50px;
+
+    &.consequence-taken {
+      @include damage-element;
+    }
+  }
+
+  .consequence-section--content-row-aspect {
+    width: calc(50% - 0.5rem);
     display: flex;
-    flex-direction: row;
-
-    &:not(:last-of-type) {
-      margin-bottom: 5px;
-    }
-
-    .consequence-section--content-row-title {
-      font-weight: 700;
-    }
-
-    .consequence-section--content-row-type {
-      width: calc(50% - 0.5rem);
-    }
-
-    .consequence-section--content-row-taken {
-      width: 1rem;
-      height: 1rem;
-      border: 1px solid #333333;
-      border-radius: 50px;
-
-      &.consequence-taken {
-        background-color: red;
-      }
-    }
-
-    .consequence-section--content-row-aspect {
-      width: calc(50% - 0.5rem);
-      display: flex;
-      justify-content: flex-end;
-    }
+    justify-content: flex-end;
   }
 }

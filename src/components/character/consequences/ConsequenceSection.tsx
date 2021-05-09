@@ -48,18 +48,12 @@ const ConsequenceSection: FC<{ consequences: ConsequenceType[] }> = (props) => {
   }
 
   return (
-    <div className={style['consequence-section']}>
-      <h5 className={style['consequence-section--title']}>Consequences</h5>
+    <div className='character-section'>
+      <h4>Consequences</h4>
       <div className={style['consequence-section--content-row']}>
-        <div className={clsx(
-          style['consequence-section--content-row-type'],
-          style['consequence-section--content-row-title'],
-        )}>Type</div>
-        <div className={style['consequence-section--content-row-title']}>Used?</div>
-        <div className={clsx(
-          style['consequence-section--content-row-aspect'],
-          style['consequence-section--content-row-title']
-        )}>Aspect</div>
+        <h5 className={style['consequence-section--content-row-type']}>Type</h5>
+        <h5>Used?</h5>
+        <h5 className={style['consequence-section--content-row-aspect']}>Aspect</h5>
       </div>
       {consequenceList.map((c, i) =>
         <div key={i} className={style['consequence-section--content-row']}>
