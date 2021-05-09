@@ -1,6 +1,7 @@
 import { Grid } from '@material-ui/core';
 import clsx from 'clsx';
 import { FC, useEffect, useState } from 'react';
+import AspectSection from './aspects/AspectSection';
 import styles from './CharacterSheet.module.scss';
 import ConsequenceSection from './consequences/ConsequenceSection';
 import SkillSection from './skills/SkillSection';
@@ -24,10 +25,7 @@ const CharacterSheet: FC = (_) => {
           <Grid container spacing={1}>
             <Grid item xs={12}>
               <div className={clsx('character-section', styles['character--header'])}>
-                <div className={styles['character--header-group']}>
-                  <span className={styles['character--header-label']}>Character:</span>
-                  <p>{character.name}</p>
-                </div>
+                <h3>{character.name}</h3>
                 <div className={styles['character--header-group']}>
                   <span className={styles['character--header-label']}>FP:</span>
                   <p>{character.baseRefresh + character.stunts.map(s => s.cost).reduce((a, b) => a + b)}</p>
@@ -50,10 +48,13 @@ const CharacterSheet: FC = (_) => {
             <Grid item xs={4}>
               <ConsequenceSection consequences={character.consequences} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <StuntSection stunts={character.stunts} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
+              <AspectSection aspects={character.aspects} tempAspects={character.temporaryAspects} />
+            </Grid>
+            <Grid item xs={4}>
               <div className='character-section'>
                 <h4>Notes</h4>
                 <p>{character.notes}</p>

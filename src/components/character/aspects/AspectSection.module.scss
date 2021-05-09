@@ -1,0 +1,17 @@
+@import 'src/styles/variables';
+
+.aspect-group {
+  &:not(:last-of-type) {
+    margin-bottom: 10px;
+  }
+
+  .aspect-group--item {
+    margin-bottom: 5px;
+
+    &.aspect-group--none {
+      @include disabled-element;
+      font-style: italic;
+      background-color: #ffffff;
+    }
+  }
+}
