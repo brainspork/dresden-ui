@@ -1,12 +1,12 @@
 import { Grid } from '@material-ui/core';
 import { FC, useEffect, useState } from 'react';
-import styles from './Character.module.scss';
+import styles from './CharacterSheet.module.scss';
 import ConsequenceSection from './consequences/ConsequenceSection';
-import SkillBox from './skills/SkillBox';
-import StressBox from './stress/StressBox';
+import SkillSection from './skills/SkillBox';
+import StressSection from './stress/StressSection';
 import { CharacterType } from './types';
 
-const Character: FC = (props) => {
+const CharacterSheet: FC = (_) => {
   const [character, setCharacter] = useState<CharacterType>();
 
   useEffect(() => {
@@ -23,21 +23,21 @@ const Character: FC = (props) => {
             <Grid container spacing={1}>
               <Grid item xs={12}>
                 <div className={styles['character--header']}>
-                  <div>
-                    <span className={styles['character--header-label']}>Character</span>
+                  <div className={styles['character--header-group']}>
+                    <span className={styles['character--header-label']}>Character:</span>
                     <p>{character.name}</p>
                   </div>
-                  <div>
-                    <span className={styles['character--header-label']}>FP</span>
+                  <div className={styles['character--header-group']}>
+                    <span className={styles['character--header-label']}>FP:</span>
                     <p>{character.baseRefresh + character.stunts.map(s => s.cost).reduce((a, b) => a + b)}</p>
                   </div>
                 </div>
               </Grid>
               <Grid item xs={4}>
-                <SkillBox skills={character.skills} />
+                <SkillSection skills={character.skills} />
               </Grid>
               <Grid item xs={4}>
-                <StressBox
+                <StressSection
                   physicalStressBoxes={character.physicalStressBoxes}
                   physicalStressTaken={character.physicalStressTaken}
                   mentalStressBoxes={character.mentalStressBoxes}
@@ -57,4 +57,4 @@ const Character: FC = (props) => {
   );
 }
 
-export default Character;
+export default CharacterSheet;

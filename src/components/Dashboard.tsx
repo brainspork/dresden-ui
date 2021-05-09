@@ -1,7 +1,7 @@
 import { FC, useEffect } from 'react';
 import { useHistory } from 'react-router';
 import { useUserContext } from 'src/contexts/UserContext';
-import Character from 'src/components/character/Character';
+import CharacterSheet from 'src/components/character/CharacterSheet';
 
 const Dashboard: FC = (_) => {
   const { user } = useUserContext();
@@ -20,7 +20,7 @@ const Dashboard: FC = (_) => {
         <>
           {/* <h2>Characters</h2>
           <h2>Games</h2> */}
-          <Character />
+          <CharacterSheet />
         </>
       )}
     </>

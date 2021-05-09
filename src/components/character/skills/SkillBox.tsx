@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react';
-import styles from './SkillBox.module.scss';
+import styles from './SkillSection.module.scss';
 import { SkillType } from '../types';
 
 type SkillMap = {
@@ -23,7 +23,7 @@ const SkillBoxRow: FC<{ title: string, skills: SkillType[]}> = (props) => (
   </div>
 );
 
-const SkillBox: FC<{ skills: SkillType[] }> = (props) => {
+const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
   const [skillsMap, setSkillsMap] = useState<SkillMap>({ 1: [], 2: [], 3: [], 4: [], 5: [] });
 
   useEffect(() => {
@@ -46,4 +46,4 @@ const SkillBox: FC<{ skills: SkillType[] }> = (props) => {
   );
 }
 
-export default SkillBox;
+export default SkillSection;

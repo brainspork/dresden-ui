@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { FC } from 'react';
-import styles from './StressContainer.module.scss';
+import styles from './StressSection.module.scss';
 
 enum StressFlag {
   ONE = 1,
@@ -13,7 +13,7 @@ enum StressFlag {
   EIGHT = 128
 }
 
-type StressContainerProps = {
+type StressSectionProps = {
   physicalStressBoxes: number,
   physicalStressTaken?: number,
   mentalStressBoxes: number,
@@ -52,7 +52,7 @@ const StressTrack: FC<{ totalStress: number, takenStress?: number, trackTitle: s
   );
 }
 
-const StressSection: FC<StressContainerProps> = (props) => {
+const StressSection: FC<StressSectionProps> = (props) => {
 
   return (
     <div className={styles['stress-section']}>
