@@ -63,10 +63,10 @@ export type StuntType = {
 };
 
 export type ConsequenceType = {
-  id: number;
+  id?: number;
   stressType: StressEnum;
   stressCategory: StressCategory;
-  aspect: string;
+  aspect?: string;
 };
 
 export type TemporaryAspectType = {

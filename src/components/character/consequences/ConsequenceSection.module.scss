@@ -13,7 +13,7 @@
   }
 
   .consequence-section--content-row-type {
-    width: calc(50% - 0.5rem);
+    width: calc(50% - 1rem);
   }
 
   .consequence-section--content-row-taken {
@@ -21,6 +21,7 @@
     height: 1rem;
     border: 1px solid #333333;
     border-radius: 50px;
+    margin: 0 1rem;
 
     &.consequence-taken {
       @include damage-element;
@@ -28,8 +29,9 @@
   }
 
   .consequence-section--content-row-aspect {
-    width: calc(50% - 0.5rem);
+    width: calc(50% - 1rem);
     display: flex;
     justify-content: flex-end;
+    align-items: flex-end;
   }
 }
