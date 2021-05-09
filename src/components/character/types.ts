@@ -73,3 +73,13 @@ export type TemporaryAspectType = {
   id: number;
   name: string;
 };
+
+export type CharacterPatch = {
+  name: string;
+  notes?: string;
+  physicalStressTaken?: number;
+  mentalStressTaken?: number;
+  socialStressTaken?: number;
+  consequences: ConsequenceType[];
+  temporaryAspects: TemporaryAspectType[];
+}

@@ -18,6 +18,10 @@
     margin-right: 5px;
   }
 
+  &:not(.stress-box--disabled) {
+    cursor: pointer;
+  }
+
   &.stress-box--taken {
     @include damage-element;
   }
