@@ -31,6 +31,7 @@ export type CharacterType = {
   mentalStressTaken?: number;
   socialStressTaken?: number;
   baseRefresh: number;
+  refreshUsed?: number;
   aspects: AspectType[];
   skills: SkillType[];
   stunts: StuntType[];
@@ -80,6 +81,7 @@ export type CharacterPatch = {
   physicalStressTaken?: number;
   mentalStressTaken?: number;
   socialStressTaken?: number;
+  refreshUsed?: number;
   consequences: ConsequenceType[];
   temporaryAspects: TemporaryAspectType[];
 }

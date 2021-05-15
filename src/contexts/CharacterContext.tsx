@@ -51,7 +51,7 @@ const CharacterContextProvider: FC = (props) => {
       
       characterPatch = { ...characterPatch, ...changedValues };
 
-      let headers = new Headers()
+      let headers = new Headers();
 
       headers.set('content-type', 'application/json');
 

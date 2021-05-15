@@ -1,10 +1,10 @@
 import { Grid } from '@material-ui/core';
-import clsx from 'clsx';
 import { FC, useEffect } from 'react';
 import { useCharacterContext } from 'src/contexts/CharacterContext';
 import AspectSection from './aspects/AspectSection';
 import styles from './CharacterSheet.module.scss';
 import ConsequenceSection from './consequences/ConsequenceSection';
+import HeaderSection from './header/HeaderSection';
 import SkillSection from './skills/SkillSection';
 import StressSection from './stress/StressSection';
 import StuntSection from './stunts/StuntSection';
@@ -14,7 +14,7 @@ const CharacterSheet: FC = (_) => {
 
   useEffect(() => {
     setCharacterId(1);
-  }, []);
+  }, [setCharacterId]);
 
   return (
     <>
@@ -22,13 +22,7 @@ const CharacterSheet: FC = (_) => {
         <div className={styles['character']}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <div className={clsx('character-section', styles['character--header'])}>
-                <h3>{character.name}</h3>
-                <div className={styles['character--header-group']}>
-                  <span className={styles['character--header-label']}>FP:</span>
-                  <p>{character.baseRefresh + character.stunts.map(s => s.cost).reduce((a, b) => a + b)}</p>
-                </div>
-              </div>
+              <HeaderSection name={character.name} baseRefresh={character.baseRefresh} refreshUsed={character.refreshUsed} stunts={character.stunts} />
             </Grid>
             <Grid item xs={4}>
               <SkillSection skills={character.skills} />

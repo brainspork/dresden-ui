@@ -1,4 +1,4 @@
-import { IconButton, Input, InputAdornment } from '@material-ui/core';
+import { Input, InputAdornment } from '@material-ui/core';
 import { Add, Check } from '@material-ui/icons';
 import clsx from 'clsx';
 import { ChangeEvent, FC, useEffect, useState } from 'react';
@@ -19,7 +19,7 @@ const ConsequenceSection: FC<{ consequences: ConsequenceType[] }> = (props) => {
 
   const [consequenceList, setConsequenceList] = useState<Consequence[]>([]);
   const [editConsequenceId, setEditConsequenceId] = useState<number>();
-  const [aspect, setAspect] = useState<string>();
+  const [aspect, setAspect] = useState<string>('');
 
   useEffect(() => {
     const newConsequenceList = [
@@ -31,7 +31,7 @@ const ConsequenceSection: FC<{ consequences: ConsequenceType[] }> = (props) => {
       const taken = props.consequences.filter(c => c.stressCategory === cl.stressCategory && c.stressType === cl.stressType)[0];
 
       if (taken) {
-        return { ...cl, used: true, aspect: taken.aspect, id: taken.id }
+        return { ...cl, used: true, aspect: taken.aspect, id: taken.id };
       } else {
         return cl;
       }
@@ -75,7 +75,7 @@ const ConsequenceSection: FC<{ consequences: ConsequenceType[] }> = (props) => {
     })});
 
     setEditConsequenceId(undefined);
-    setAspect(undefined);
+    setAspect('');
   }
 
   const onChange = (ev: ChangeEvent<HTMLInputElement>) => {
@@ -84,7 +84,7 @@ const ConsequenceSection: FC<{ consequences: ConsequenceType[] }> = (props) => {
 
   useEffect(() => {
     if (editConsequenceId) {
-      setAspect(props.consequences.filter(c => c.id === editConsequenceId)[0]?.aspect);
+      setAspect(props.consequences.filter(c => c.id === editConsequenceId)[0]?.aspect || '');
     }
   }, [editConsequenceId, props.consequences]);
 

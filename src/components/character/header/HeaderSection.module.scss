@@ -1,0 +1,32 @@
+  .character--header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+
+    h3 {
+      padding-right: 10px;
+      margin-right: 10px;
+      border-right: 1px solid #a7a7a7;
+    }
+
+    .character--header-group {
+      display: flex;
+      align-items: center;
+      &:not(:last-of-type) {
+        margin-right: 10px;
+      }
+
+      .character--header-label {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-right: 5px;
+      }
+
+      p {
+        display: inline-block;
+        font-size: 1.25rem;
+        margin: 0;
+      }
+    }
+  }

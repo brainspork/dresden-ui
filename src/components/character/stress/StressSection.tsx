@@ -29,6 +29,7 @@ const StressBox: FC<{ stressFlag: StressFlag, stressTaken: number, isTaken: bool
   const toggleStressBox = () => {
     updateStress(isTaken ? stressTaken - stressFlag : stressTaken + stressFlag);
   }
+  
   return (
     <div
       onClick={toggleStressBox}
