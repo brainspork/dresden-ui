@@ -1,13 +1,16 @@
 import { createContext, FC, useContext, useEffect, useState } from 'react';
-import { CharacterPatch, CharacterType } from 'src/components/character/types';
+import { CharacterPatch, CharacterType, CharacterVersion } from 'src/components/character/types';
 import { useUserContext } from './UserContext';
 
 type CharacterContextType = {
   character?: CharacterType;
   characterId?: number;
   canEdit?: boolean;
+  isAddingVersion: boolean;
+  beginVersionAdd: () => void;
   setCharacterId: (characterId?: number) => void;
   updateCharacter: (changedValues: Partial<CharacterPatch>) => void;
+  addCharacterVersion: (changedValues:  Partial<CharacterVersion>) => void;
 }
 
 const CharacterContext = createContext<CharacterContextType | undefined>(undefined);
@@ -27,6 +30,7 @@ const CharacterContextProvider: FC = (props) => {
   const [characterId, setCharacterId] = useState<number>();
   const [character, setCharacter] = useState<CharacterType>();
   const [canEdit, setCanEdit] = useState<boolean>();
+  const [isAddingVersion, setIsAddingVersion] = useState<boolean>(false);
 
   const getCharacter = (id: number) => {
     fetch('https://localhost:44391/api/character/' + id)
@@ -60,6 +64,31 @@ const CharacterContextProvider: FC = (props) => {
     }
   }
 
+  const beginVersionAdd = () => setIsAddingVersion(true);
+
+  const addCharacterVersion = (changedValues: Partial<CharacterVersion>) => {
+    if (character) {
+      let characterVersion: CharacterVersion = {
+        aspects: character.aspects,
+        baseRefresh: character.baseRefresh,
+        mentalStressBoxes: character.mentalStressBoxes,
+        physicalStressBoxes: character.physicalStressBoxes,
+        skills: character.skills,
+        socialStressBoxes: character.socialStressBoxes,
+        stunts: character.stunts
+      }
+
+      characterVersion = { ...characterVersion, ...changedValues }
+
+      let headers = new Headers();
+
+      headers.set('content-type', 'application/json');
+  
+      fetch('https://localhost:44391/api/character/' + character.characterId, { method: 'PUT', body: JSON.stringify(characterVersion), headers })
+        .then(() => getCharacter(character.characterId));
+    }
+  }
+
   useEffect(() => {
     if (characterId) {
       getCharacter(characterId);
@@ -72,8 +101,11 @@ const CharacterContextProvider: FC = (props) => {
         character,
         characterId,
         canEdit,
+        isAddingVersion,
         setCharacterId,
-        updateCharacter
+        updateCharacter,
+        addCharacterVersion,
+        beginVersionAdd
       }}
     >
       {props.children}

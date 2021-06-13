@@ -85,3 +85,13 @@ export type CharacterPatch = {
   consequences: ConsequenceType[];
   temporaryAspects: TemporaryAspectType[];
 }
+
+export type CharacterVersion = {
+  physicalStressBoxes: number;
+  mentalStressBoxes: number;
+  socialStressBoxes: number;
+  baseRefresh: number;
+  aspects: AspectType[];
+  skills: SkillType[];
+  stunts: StuntType[];
+}
