@@ -16,7 +16,7 @@ type HeaderSectionProps = {
 const HeaderSection: FC<HeaderSectionProps> = (props) => {
   const { updateCharacter, beginVersionAdd } = useCharacterContext();
   const [refreshUsed, setRefreshUsed] = useState<number>(props.refreshUsed || 0);
-  const stuntRefreshCost = useMemo(() => props.stunts.map(s => s.cost).reduce((a, b) => a + b), [props.stunts, props.baseRefresh]);
+  const stuntRefreshCost = useMemo(() => props.stunts.map(s => s.cost).reduce((a, b) => a + b, 0), [props.stunts]);
 
   useEffect(() => {
     if (refreshUsed !== props.refreshUsed) {
@@ -24,7 +24,7 @@ const HeaderSection: FC<HeaderSectionProps> = (props) => {
         refreshUsed: refreshUsed
       });
     }
-  }, [refreshUsed, props.refreshUsed]);
+  }, [updateCharacter, refreshUsed, props.refreshUsed]);
 
   const addPoint = () => setRefreshUsed(refreshUsed - 1);
   const removePoint = () => setRefreshUsed(refreshUsed + 1);

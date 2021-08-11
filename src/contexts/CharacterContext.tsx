@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { createContext, FC, useContext, useEffect, useState } from 'react';
 import { CharacterPatch, CharacterType, CharacterVersion } from 'src/components/character/types';
 import { useUserContext } from './UserContext';
@@ -32,14 +33,14 @@ const CharacterContextProvider: FC = (props) => {
   const [canEdit, setCanEdit] = useState<boolean>();
   const [isAddingVersion, setIsAddingVersion] = useState<boolean>(false);
 
-  const getCharacter = (id: number) => {
+  const getCharacter = useCallback((id: number) => {
     fetch('https://localhost:44391/api/character/' + id)
       .then(res => res.json())
       .then((res: CharacterType) => {
         setCanEdit(res.userId === user?.userId)
         setCharacter(res);
       });
-  }
+  }, [user]);
 
   const updateCharacter = (changedValues: Partial<CharacterPatch>) => {
     if (character) {
@@ -93,7 +94,7 @@ const CharacterContextProvider: FC = (props) => {
     if (characterId) {
       getCharacter(characterId);
     }
-  }, [characterId]);
+  }, [getCharacter, characterId]);
 
   return (
     <CharacterContext.Provider

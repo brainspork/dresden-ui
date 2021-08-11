@@ -54,7 +54,7 @@ const StressTrack: FC<{ totalStress: number, stressTaken?: number, trackTitle: s
         isDisabled: (f & totalStress) === 0, 
         updateStress: updateStress 
       }))
-    , [stressTaken, totalStress]);
+    , [updateStress, stressTaken, totalStress]);
 
   return (
     <div className={styles['stress-track']}>
@@ -84,7 +84,7 @@ const StressSection: FC<StressSectionProps> = (props) => {
         socialStressTaken: socialStress
       });
     }
-  }, [physicalStress, mentalStress, socialStress, props.physicalStressTaken, props.mentalStressTaken, props.socialStressTaken]);
+  }, [updateCharacter, physicalStress, mentalStress, socialStress, props.physicalStressTaken, props.mentalStressTaken, props.socialStressTaken]);
 
   return (
     <div className='character-section'>
