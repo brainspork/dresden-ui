@@ -1,3 +1,5 @@
+$damage-color: #a51515;
+
 @mixin disabled-element {
   color: rgba(0, 0, 0, 0.26);
   box-shadow: none;
@@ -7,6 +9,6 @@
 
 @mixin damage-element {
   color: #ffffff;
-  background-color: #a51515;
-  border-color: #a51515;
+  background-color: $damage-color;
+  border-color: $damage-color;
 }

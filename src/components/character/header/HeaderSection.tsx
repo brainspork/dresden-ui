@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { useCharacterContext } from 'src/contexts/CharacterContext';
 import { StuntType } from '../types';
-import { Add, Edit, Remove } from '@material-ui/icons';
+import { Add, Cancel, Done, Edit, Remove } from '@material-ui/icons';
 import styles from './HeaderSection.module.scss';
 import { IconButton } from '@material-ui/core';
 
@@ -14,7 +14,7 @@ type HeaderSectionProps = {
 };
 
 const HeaderSection: FC<HeaderSectionProps> = (props) => {
-  const { updateCharacter, beginVersionAdd } = useCharacterContext();
+  const { isAddingVersion, updateCharacter, beginVersionAdd, cancelVersionAdd, saveVersionChanges } = useCharacterContext();
   const [refreshUsed, setRefreshUsed] = useState<number>(props.refreshUsed || 0);
   const stuntRefreshCost = useMemo(() => props.stunts.map(s => s.cost).reduce((a, b) => a + b, 0), [props.stunts]);
 
@@ -45,9 +45,21 @@ const HeaderSection: FC<HeaderSectionProps> = (props) => {
         </div>
       </div>
       <div className={styles['character--header-actions']}>
-        <IconButton onClick={beginVersionAdd}>
-          <Edit />
-        </IconButton>
+        {!isAddingVersion ? (
+          <IconButton onClick={beginVersionAdd}>
+            <Edit />
+          </IconButton>
+        ) : (
+          <>
+            <IconButton onClick={cancelVersionAdd}>
+              <Cancel />
+            </IconButton>
+            <IconButton onClick={saveVersionChanges}>
+              <Done />
+            </IconButton>
+          </>
+        )}
+
       </div>
     </div>
   );

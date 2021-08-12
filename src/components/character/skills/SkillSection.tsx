@@ -27,6 +27,7 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
   const [skillsMap, setSkillsMap] = useState<SkillMap>({ 1: [], 2: [], 3: [], 4: [], 5: [] });
 
   useEffect(() => {
+    // TODO: possible candidate for reduce
     const map: SkillMap = { 1: [], 2: [], 3: [], 4: [], 5: [] };
 
     props.skills.forEach(s => map[s.skillLevel as keyof SkillMap].push(s));

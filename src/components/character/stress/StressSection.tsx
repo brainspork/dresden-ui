@@ -25,13 +25,11 @@ type StressSectionProps = {
   socialStressTaken?: number
 };
 
-const StressBox: FC<{ stressFlag: StressFlag, stressTaken: number, isTaken: boolean, isDisabled: boolean, updateStress: (taken: number) => void, isEditing: boolean }> = (props) => {
-  const { isTaken, isDisabled, updateStress, stressTaken, stressFlag, isEditing } = props;
+const StressBox: FC<{ stressFlag: StressFlag, stressTaken: number, isTaken: boolean, isDisabled: boolean, updateStress: (taken: number) => void }> = (props) => {
+  const { isTaken, isDisabled, updateStress, stressTaken, stressFlag } = props;
 
   const toggleStressBox = () => {
-    if (!isEditing) {
-      updateStress(isTaken ? stressTaken - stressFlag : stressTaken + stressFlag);
-    }
+    updateStress(isTaken ? stressTaken - stressFlag : stressTaken + stressFlag);
   }
 
   return (
@@ -40,7 +38,7 @@ const StressBox: FC<{ stressFlag: StressFlag, stressTaken: number, isTaken: bool
       className={clsx(
         styles['stress-box'],
         isDisabled && styles['stress-box--disabled'],
-        isTaken && styles['stress-box--taken']
+        isTaken && styles['stress-box--taken'],
       )}
     ></div>
   )
@@ -59,6 +57,7 @@ const StressTrack: FC<{
   const minStressBoxes = 1;
   const maxStressBoxes = 255;
 
+  // probably a needlessly complex implementation but still fun, consider refactoring if it becomes weird
   const stressBoxes = useMemo(() =>
     [StressFlag.ONE, StressFlag.TWO, StressFlag.THREE, StressFlag.FOUR, StressFlag.FIVE, StressFlag.SIX, StressFlag.SEVEN, StressFlag.EIGHT]
       .map(f => ({
@@ -67,9 +66,8 @@ const StressTrack: FC<{
         isTaken: (f & (stressTaken || 0)) !== 0,
         isDisabled: (f & totalStress) === 0,
         updateStress: updateStress,
-        isEditing
       }))
-    , [updateStress, stressTaken, totalStress, isEditing]);
+    , [updateStress, stressTaken, totalStress]);
 
   // find the first disabled (off) bit and toggle it on
   const addStressTrack = () => updateStressTrack(totalStress ^ (1 << (stressBoxes.findIndex(s => s.isDisabled))));
