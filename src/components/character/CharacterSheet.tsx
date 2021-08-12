@@ -22,7 +22,7 @@ const CharacterSheet: FC = (_) => {
         <div className={styles['character']}>
           <Grid container spacing={1}>
             <Grid item xs={12}>
-              <HeaderSection name={character.name} baseRefresh={character.baseRefresh} refreshUsed={character.refreshUsed} stunts={character.stunts} />
+              <HeaderSection name={character.name} baseRefresh={characterVersionChanges?.baseRefresh || character.baseRefresh} refreshUsed={character.refreshUsed} stunts={character.stunts} />
             </Grid>
             <Grid item xs={4}>
               <SkillSection skills={character.skills} />

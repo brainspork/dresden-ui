@@ -14,25 +14,44 @@ type HeaderSectionProps = {
 };
 
 const HeaderSection: FC<HeaderSectionProps> = (props) => {
-  const { isAddingVersion, updateCharacter, beginVersionAdd, cancelVersionAdd, saveVersionChanges } = useCharacterContext();
+  const { isAddingVersion, updateCharacter, beginVersionAdd, cancelVersionAdd, saveVersionChanges, setCharacterVersionProperty } = useCharacterContext();
   const [refreshUsed, setRefreshUsed] = useState<number>(props.refreshUsed || 0);
   const stuntRefreshCost = useMemo(() => props.stunts.map(s => s.cost).reduce((a, b) => a + b, 0), [props.stunts]);
 
-  useEffect(() => {
-    if (refreshUsed !== props.refreshUsed) {
-      updateCharacter({
-        refreshUsed: refreshUsed
-      });
-    }
-  }, [updateCharacter, refreshUsed, props.refreshUsed]);
+  const addPoint = () => updateCharacter({ refreshUsed: refreshUsed + 1 });
+  const removePoint = () => updateCharacter({ refreshUsed: refreshUsed - 1 });
 
-  const addPoint = () => setRefreshUsed(refreshUsed - 1);
-  const removePoint = () => setRefreshUsed(refreshUsed + 1);
+  const addBasePoint = () => setCharacterVersionProperty('baseRefresh', props.baseRefresh + 1)
+  const removeBasePoint = () => setCharacterVersionProperty('baseRefresh', props.baseRefresh - 1)
 
   return (
     <div className={clsx('character-section', styles['character--header'])}>
       <div className={styles['character--header-info']}>
         <h3>{props.name}</h3>
+        <div className={styles['character--header-group']}>
+          <span className={styles['character--header-label']}>BR:</span>
+          {isAddingVersion ? (
+            <>
+              <IconButton onClick={removeBasePoint}>
+                <Remove fontSize='small' />
+              </IconButton>
+              <p>{props.baseRefresh}</p>
+              <IconButton onClick={addBasePoint}>
+                <Add fontSize='small' />
+              </IconButton>
+            </>
+          ) : (
+            <p>{props.baseRefresh}</p>
+          )}
+        </div>
+        <div className={styles['character--header-group']}>
+          <span className={styles['character--header-label']}>RA:</span>
+          <p>{stuntRefreshCost}</p>
+        </div>
+        <div className={styles['character--header-group']}>
+          <span className={styles['character--header-label']}>AR:</span>
+          <p>{props.baseRefresh + stuntRefreshCost}</p>
+        </div>
         <div className={styles['character--header-group']}>
           <span className={styles['character--header-label']}>FP:</span>
           <IconButton onClick={removePoint} disabled={refreshUsed >= props.baseRefresh + stuntRefreshCost}>
@@ -43,6 +62,7 @@ const HeaderSection: FC<HeaderSectionProps> = (props) => {
             <Add fontSize='small' />
           </IconButton>
         </div>
+
       </div>
       <div className={styles['character--header-actions']}>
         {!isAddingVersion ? (
