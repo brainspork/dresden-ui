@@ -7,11 +7,14 @@ type CharacterContextType = {
   character?: CharacterType;
   characterId?: number;
   canEdit?: boolean;
+  characterVersionChanges?: CharacterVersion;
   isAddingVersion: boolean;
   beginVersionAdd: () => void;
   setCharacterId: (characterId?: number) => void;
   updateCharacter: (changedValues: Partial<CharacterPatch>) => void;
-  addCharacterVersion: (changedValues:  Partial<CharacterVersion>) => void;
+  setCharacterVersionProperty: <T extends keyof CharacterVersion>(property: T, value: CharacterVersion[T]) => void;
+  cancelVersionAdd: () => void;
+  saveVersionChanges: () => void;
 }
 
 const CharacterContext = createContext<CharacterContextType | undefined>(undefined);
@@ -32,6 +35,7 @@ const CharacterContextProvider: FC = (props) => {
   const [character, setCharacter] = useState<CharacterType>();
   const [canEdit, setCanEdit] = useState<boolean>();
   const [isAddingVersion, setIsAddingVersion] = useState<boolean>(false);
+  const [characterVersionChanges, setCharacterVersionChanges] = useState<CharacterVersion>();
 
   const getCharacter = useCallback((id: number) => {
     fetch('https://localhost:44391/api/character/' + id)
@@ -65,11 +69,10 @@ const CharacterContextProvider: FC = (props) => {
     }
   }
 
-  const beginVersionAdd = () => setIsAddingVersion(true);
-
-  const addCharacterVersion = (changedValues: Partial<CharacterVersion>) => {
+  const beginVersionAdd = () => {
     if (character) {
-      let characterVersion: CharacterVersion = {
+      setIsAddingVersion(true);
+      setCharacterVersionChanges({
         aspects: character.aspects,
         baseRefresh: character.baseRefresh,
         mentalStressBoxes: character.mentalStressBoxes,
@@ -77,16 +80,30 @@ const CharacterContextProvider: FC = (props) => {
         skills: character.skills,
         socialStressBoxes: character.socialStressBoxes,
         stunts: character.stunts
-      }
+      });
+    }
+  };
 
-      characterVersion = { ...characterVersion, ...changedValues }
+  const cancelVersionAdd = () => {
+    setIsAddingVersion(false);
+    setCharacterVersionChanges(undefined);
+  }
 
+  const saveVersionChanges = () => {
+    if (character) {
       let headers = new Headers();
 
       headers.set('content-type', 'application/json');
   
-      fetch('https://localhost:44391/api/character/' + character.characterId, { method: 'PUT', body: JSON.stringify(characterVersion), headers })
+      fetch('https://localhost:44391/api/character/' + character.characterId, { method: 'PUT', body: JSON.stringify(characterVersionChanges), headers })
+        .then(cancelVersionAdd)
         .then(() => getCharacter(character.characterId));
+    }
+  }
+
+  const setCharacterVersionProperty = <T extends keyof CharacterVersion>(property: T, value: CharacterVersion[T]) => {
+    if (characterVersionChanges) {
+      setCharacterVersionChanges({...characterVersionChanges, [property]: value})
     }
   }
 
@@ -103,10 +120,13 @@ const CharacterContextProvider: FC = (props) => {
         characterId,
         canEdit,
         isAddingVersion,
+        characterVersionChanges,
         setCharacterId,
         updateCharacter,
-        addCharacterVersion,
-        beginVersionAdd
+        setCharacterVersionProperty,
+        beginVersionAdd,
+        saveVersionChanges,
+        cancelVersionAdd
       }}
     >
       {props.children}

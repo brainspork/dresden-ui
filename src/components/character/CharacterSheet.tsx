@@ -10,7 +10,7 @@ import StressSection from './stress/StressSection';
 import StuntSection from './stunts/StuntSection';
 
 const CharacterSheet: FC = (_) => {
-  const { character, setCharacterId } = useCharacterContext();
+  const { character, characterVersionChanges, setCharacterId } = useCharacterContext();
 
   useEffect(() => {
     setCharacterId(1);
@@ -29,11 +29,11 @@ const CharacterSheet: FC = (_) => {
             </Grid>
             <Grid item xs={4}>
               <StressSection
-                physicalStressBoxes={character.physicalStressBoxes}
+                physicalStressBoxes={characterVersionChanges?.physicalStressBoxes || character.physicalStressBoxes}
                 physicalStressTaken={character.physicalStressTaken}
-                mentalStressBoxes={character.mentalStressBoxes}
+                mentalStressBoxes={characterVersionChanges?.mentalStressBoxes || character.mentalStressBoxes}
                 mentalStressTaken={character.mentalStressTaken}
-                socialStressBoxes={character.socialStressBoxes}
+                socialStressBoxes={characterVersionChanges?.socialStressBoxes || character.socialStressBoxes}
                 socialStressTaken={character.socialStressTaken}
               />
             </Grid>

@@ -1,4 +1,4 @@
-@import 'src/styles/variables';
+@import "src/styles/variables";
 
 .stress-box {
   width: 1.5rem;
@@ -11,7 +11,7 @@
   font-style: italic;
 
   &::before {
-    content: counter(stress)
+    content: counter(stress);
   }
 
   &:not(:last-of-type) {
@@ -36,8 +36,16 @@
   flex-direction: column;
   margin: 10px 0;
 
-  .stress-track--boxes {
+  .stress-track--row {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .stress-track--boxes {
+      display: flex;
+      flex: 1;
+      flex-direction: row;
+    }
   }
 }

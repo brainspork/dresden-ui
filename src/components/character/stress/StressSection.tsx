@@ -1,3 +1,5 @@
+import { IconButton } from '@material-ui/core';
+import { Remove, Add } from '@material-ui/icons';
 import clsx from 'clsx';
 import { FC, useEffect, useMemo, useState } from 'react';
 import { useCharacterContext } from 'src/contexts/CharacterContext';
@@ -23,13 +25,15 @@ type StressSectionProps = {
   socialStressTaken?: number
 };
 
-const StressBox: FC<{ stressFlag: StressFlag, stressTaken: number, isTaken: boolean, isDisabled: boolean, updateStress: (taken: number) => void }> = (props) => {
-  const { isTaken, isDisabled, updateStress, stressTaken, stressFlag } = props;
+const StressBox: FC<{ stressFlag: StressFlag, stressTaken: number, isTaken: boolean, isDisabled: boolean, updateStress: (taken: number) => void, isEditing: boolean }> = (props) => {
+  const { isTaken, isDisabled, updateStress, stressTaken, stressFlag, isEditing } = props;
 
   const toggleStressBox = () => {
-    updateStress(isTaken ? stressTaken - stressFlag : stressTaken + stressFlag);
+    if (!isEditing) {
+      updateStress(isTaken ? stressTaken - stressFlag : stressTaken + stressFlag);
+    }
   }
-  
+
   return (
     <div
       onClick={toggleStressBox}
@@ -42,32 +46,65 @@ const StressBox: FC<{ stressFlag: StressFlag, stressTaken: number, isTaken: bool
   )
 }
 
-const StressTrack: FC<{ totalStress: number, stressTaken?: number, trackTitle: string, updateStress: (taken: number) => void }> = (props) => {
-  const { totalStress, stressTaken, trackTitle, updateStress } = props;
+const StressTrack: FC<{
+  totalStress: number,
+  stressTaken?: number,
+  trackTitle: string,
+  isEditing: boolean,
+  updateStress: (taken: number) => void,
+  updateStressTrack: (stress: number) => void
+}> = (props) => {
+  const { totalStress, stressTaken, trackTitle, isEditing, updateStress, updateStressTrack } = props;
+
+  const minStressBoxes = 1;
+  const maxStressBoxes = 255;
 
   const stressBoxes = useMemo(() =>
     [StressFlag.ONE, StressFlag.TWO, StressFlag.THREE, StressFlag.FOUR, StressFlag.FIVE, StressFlag.SIX, StressFlag.SEVEN, StressFlag.EIGHT]
-      .map(f => ({ 
+      .map(f => ({
         stressFlag: f,
         stressTaken: stressTaken || 0,
-        isTaken: (f & (stressTaken || 0)) !== 0, 
-        isDisabled: (f & totalStress) === 0, 
-        updateStress: updateStress 
+        isTaken: (f & (stressTaken || 0)) !== 0,
+        isDisabled: (f & totalStress) === 0,
+        updateStress: updateStress,
+        isEditing
       }))
-    , [updateStress, stressTaken, totalStress]);
+    , [updateStress, stressTaken, totalStress, isEditing]);
+
+  // find the first disabled (off) bit and toggle it on
+  const addStressTrack = () => updateStressTrack(totalStress ^ (1 << (stressBoxes.findIndex(s => s.isDisabled))));
+
+  // find the first disabled (off) bit and toggle it the previous bit off
+  const removeStressTrack = () => {
+    const index = stressBoxes.findIndex(s => s.isDisabled);
+    // if no bits are disabled, turn off the final bit
+    updateStressTrack(totalStress ^ (1 << (index > -1 ? index - 1 : 7)));
+  }
 
   return (
     <div className={styles['stress-track']}>
       <h5 className={styles['stress-track--title']}>{trackTitle}</h5>
-      <div className={styles['stress-track--boxes']}>
-        {stressBoxes.map((s, i) => <StressBox key={i} {...s} />)}
+      <div className={styles['stress-track--row']}>
+        <div className={styles['stress-track--boxes']}>
+          {stressBoxes.map((s, i) => <StressBox key={i} {...s} />)}
+        </div>
+        {isEditing && (
+          <div>
+            <IconButton onClick={removeStressTrack} disabled={totalStress === minStressBoxes}>
+              <Remove fontSize='small' />
+            </IconButton>
+            <IconButton onClick={addStressTrack} disabled={totalStress === maxStressBoxes}>
+              <Add fontSize='small' />
+            </IconButton>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
 const StressSection: FC<StressSectionProps> = (props) => {
-  const { updateCharacter } = useCharacterContext();
+  const { updateCharacter, setCharacterVersionProperty, isAddingVersion } = useCharacterContext();
   const [physicalStress, setPhysicalStress] = useState(props.physicalStressTaken);
   const [mentalStress, setMentalStress] = useState(props.mentalStressTaken);
   const [socialStress, setSocicalStress] = useState(props.socialStressTaken);
@@ -86,12 +123,37 @@ const StressSection: FC<StressSectionProps> = (props) => {
     }
   }, [updateCharacter, physicalStress, mentalStress, socialStress, props.physicalStressTaken, props.mentalStressTaken, props.socialStressTaken]);
 
+  const updatePhysicalSressTrack = (stress: number) => setCharacterVersionProperty('physicalStressBoxes', stress);
+  const updateMentalSressTrack = (stress: number) => setCharacterVersionProperty('mentalStressBoxes', stress);
+  const updateSocialSressTrack = (stress: number) => setCharacterVersionProperty('socialStressBoxes', stress);
+
   return (
     <div className='character-section'>
       <h4 className='character-section--title'>Stress</h4>
-      <StressTrack trackTitle='Physical' totalStress={props.physicalStressBoxes} stressTaken={physicalStress} updateStress={setPhysicalStress} />
-      <StressTrack trackTitle='Mental' totalStress={props.mentalStressBoxes} stressTaken={mentalStress} updateStress={setMentalStress} />
-      <StressTrack trackTitle='Social' totalStress={props.socialStressBoxes} stressTaken={socialStress} updateStress={setSocicalStress} />
+      <StressTrack
+        trackTitle='Physical'
+        totalStress={props.physicalStressBoxes}
+        stressTaken={physicalStress}
+        updateStress={setPhysicalStress}
+        isEditing={isAddingVersion}
+        updateStressTrack={updatePhysicalSressTrack}
+      />
+      <StressTrack
+        trackTitle='Mental'
+        totalStress={props.mentalStressBoxes}
+        stressTaken={mentalStress}
+        updateStress={setMentalStress}
+        isEditing={isAddingVersion}
+        updateStressTrack={updateMentalSressTrack}
+      />
+      <StressTrack
+        trackTitle='Social'
+        totalStress={props.socialStressBoxes}
+        stressTaken={socialStress}
+        updateStress={setSocicalStress}
+        isEditing={isAddingVersion}
+        updateStressTrack={updateSocialSressTrack}
+      />
     </div>
   );
 }
