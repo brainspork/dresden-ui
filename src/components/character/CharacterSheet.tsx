@@ -25,7 +25,7 @@ const CharacterSheet: FC = (_) => {
               <HeaderSection name={character.name} baseRefresh={characterVersionChanges?.baseRefresh || character.baseRefresh} refreshUsed={character.refreshUsed} stunts={character.stunts} />
             </Grid>
             <Grid item xs={4}>
-              <SkillSection skills={character.skills} />
+              <SkillSection skills={characterVersionChanges?.skills || character.skills} />
             </Grid>
             <Grid item xs={4}>
               <StressSection

@@ -11,8 +11,24 @@
     display: flex;
     flex-wrap: wrap;
 
+    &.skill-section--row--skill-container-edit {
+      width: 100%;
+      border: 1px solid #a7a7a7;
+      border-radius: 3px;
+      padding: 5px;
+    }
+
     .skill-section--row--skill {
-      &:not(:last-of-type) {
+      &.skill-section--row--skill-edit {
+        padding: 2px 4px;
+        border: 1px solid #0072cf;
+        border-radius: 3px;
+        background-color: #008cff;
+        color: #ffffff;
+        margin-right: 10px;
+      }
+
+      &:not(:last-of-type):not(.skill-section--row--skill-edit) {
         margin-right: 10px;
         &::after {
           content: ",";
