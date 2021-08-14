@@ -17,6 +17,7 @@
       border: 1px solid #a7a7a7;
       border-radius: 3px;
       padding: 5px;
+      min-height: 30px;
 
       &.skill-section--row--skill-container-hover {
         border-color: red;
@@ -24,13 +25,16 @@
     }
 
     .skill-section--row--skill {
+
       &.skill-section--row--skill-edit {
         padding: 2px 4px;
         border: 1px solid #0072cf;
         border-radius: 3px;
         background-color: #008cff;
         color: #ffffff;
-        margin-right: 10px;
+        display: flex;
+        align-items: center;
+        margin: 2px 10px 2px 0;
       }
 
       &:not(:last-of-type):not(.skill-section--row--skill-edit) {
@@ -38,6 +42,11 @@
         &::after {
           content: ",";
         }
+      }
+
+      .skill-section--row--remove {
+        cursor: pointer;
+        padding-left: 2px;
       }
     }
   }

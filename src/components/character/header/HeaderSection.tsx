@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { FC, useEffect, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { useCharacterContext } from 'src/contexts/CharacterContext';
 import { StuntType } from '../types';
 import { Add, Cancel, Done, Edit, Remove } from '@material-ui/icons';
@@ -15,7 +15,7 @@ type HeaderSectionProps = {
 
 const HeaderSection: FC<HeaderSectionProps> = (props) => {
   const { isAddingVersion, updateCharacter, beginVersionAdd, cancelVersionAdd, saveVersionChanges, setCharacterVersionProperty } = useCharacterContext();
-  const [refreshUsed, setRefreshUsed] = useState<number>(props.refreshUsed || 0);
+  const [refreshUsed] = useState<number>(props.refreshUsed || 0);
   const stuntRefreshCost = useMemo(() => props.stunts.map(s => s.cost).reduce((a, b) => a + b, 0), [props.stunts]);
 
   const addPoint = () => updateCharacter({ refreshUsed: refreshUsed + 1 });

@@ -5,6 +5,7 @@ import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautif
 import { useCharacterContext } from 'src/contexts/CharacterContext';
 import clsx from 'clsx';
 import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
+import { Close } from '@material-ui/icons';
 
 type SkillMap = {
   1: SkillType[];
@@ -88,6 +89,17 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
     setCharacterVersionProperty('skills', newSkillArray);
   }
 
+  const removeSkill = (id: number) => {
+    const newSkillArray = [ ...props.skills ];
+    const skillIndex = newSkillArray.findIndex(s => s.skillId === id);
+
+    if (skillIndex > -1) {
+      newSkillArray.splice(skillIndex, 1);
+    }
+
+    setCharacterVersionProperty('skills', newSkillArray);
+  }
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
       <div className='character-section'>
@@ -118,6 +130,7 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
                           {...provided.dragHandleProps} 
                         >
                           {s.name}
+                          {isAddingVersion && <Close className={styles['skill-section--row--remove']} fontSize='small' onClick={() => removeSkill(s.skillId)} />}
                         </div>
                       )}
                     </Draggable>
