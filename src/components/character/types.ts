@@ -55,6 +55,12 @@ export type SkillType = {
   name: string;
 };
 
+export type SkillInfoType = {
+  id: number;
+  name: string;
+  descroption: string;
+};
+
 export type StuntType = {
   stuntId: number;
   notes?: string;

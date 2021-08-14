@@ -1,9 +1,10 @@
 import { FC, useEffect, useState } from 'react';
 import styles from './SkillSection.module.scss';
-import { SkillType } from '../types';
+import { SkillInfoType, SkillType } from '../types';
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { useCharacterContext } from 'src/contexts/CharacterContext';
 import clsx from 'clsx';
+import { FormControl, InputLabel, MenuItem, Select } from '@material-ui/core';
 
 type SkillMap = {
   1: SkillType[];
@@ -13,6 +14,48 @@ type SkillMap = {
   5: SkillType[];
 }
 
+const SkillList: FC<{ skills: SkillType[] }> = (props) => {
+  const { setCharacterVersionProperty } = useCharacterContext();
+  const [allSkills, setAllSkills] = useState<SkillInfoType[]>();
+  const [availableSkills, setAvailableSkills] = useState<SkillInfoType[]>();
+  const [selectValue] = useState('');
+
+  useEffect(() => {
+    if (!allSkills) {
+      fetch('https://localhost:44391/api/skill')
+        .then(res => res.json())
+        .then((res: SkillInfoType[]) => setAllSkills(res));
+    }
+  }, [allSkills]);
+
+  useEffect(() => {
+    if (allSkills) {
+      const nextSkills = allSkills.filter(s => props.skills.findIndex(us => us.skillId === s.id) === -1);
+      setAvailableSkills(nextSkills);
+    }
+  }, [props.skills, allSkills]);
+
+  const onChange = (e: React.ChangeEvent<{ name?: string | undefined; value: unknown; }>) => {
+    e.preventDefault();
+    const value = JSON.parse(e.target.value as string) as { id: number, name: string };
+
+    setCharacterVersionProperty('skills', [...props.skills, { skillId: value.id, name: value.name, skillLevel: 1 }]);
+  }
+
+  return (
+    <>
+      {availableSkills && (
+        <FormControl style={{width: '100%'}}>
+          <InputLabel>Add Skill</InputLabel>
+          <Select onChange={onChange} value={selectValue} disabled={availableSkills.length <= 0}>
+            {availableSkills.map((s, i) => <MenuItem key={i} value={JSON.stringify({id: s.id, name: s.name})}>{s.name}</MenuItem>)}
+          </Select>
+        </FormControl>
+      )}
+    </>
+  );
+}
+
 const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
   const { isAddingVersion, setCharacterVersionProperty } = useCharacterContext();
   const [skillsMap, setSkillsMap] = useState<SkillMap>({ 1: [], 2: [], 3: [], 4: [], 5: [] });
@@ -20,7 +63,7 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
   useEffect(() => {
     const newSkillMap = props.skills.reduce<SkillMap>((acc, s) => ({
       ...acc, 
-      [s.skillLevel]: [ ...acc[s.skillLevel  as keyof SkillMap], s ]
+      [s.skillLevel]: [ ...acc[s.skillLevel as keyof SkillMap], s ]
     })
     , { 1: [], 2: [], 3: [], 4: [], 5: [] });
 
@@ -39,6 +82,7 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
     
     if (skillIndex > -1) {
       newSkillArray[skillIndex].skillLevel = parseInt(destination.droppableId);
+      newSkillArray.push(newSkillArray.splice(skillIndex, 1)[0]);
     }
 
     setCharacterVersionProperty('skills', newSkillArray);
@@ -51,13 +95,14 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
         {Object.keys(skillsMap).reverse().map((k, i) => (
           <div key={i} className={styles['skill-section--row']}>
             <h5 className={styles['skill-section--row--title']}>{'+' + k}</h5>
-            <Droppable droppableId={k}>
+            <Droppable droppableId={k} direction='horizontal'>
               {(provided, snapshot) => (
                 <div 
-                  ref={provided.innerRef} 
+                  ref={provided.innerRef}
                   className={clsx(
                     styles['skill-section--row--skill-container'], 
-                    isAddingVersion && styles['skill-section--row--skill-container-edit']
+                    isAddingVersion && styles['skill-section--row--skill-container-edit'],
+                    snapshot.isDraggingOver && styles['skill-section--row--skill-container-hover'],
                   )}
                 >
                   {skillsMap[k as unknown as keyof SkillMap].map((s, ind) => 
@@ -67,7 +112,7 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
                           ref={provided.innerRef} 
                           className={clsx(
                             styles['skill-section--row--skill'],
-                            isAddingVersion && styles['skill-section--row--skill-edit']
+                            isAddingVersion && styles['skill-section--row--skill-edit'],
                           )}
                           {...provided.draggableProps} 
                           {...provided.dragHandleProps} 
@@ -83,6 +128,7 @@ const SkillSection: FC<{ skills: SkillType[] }> = (props) => {
             </Droppable>
           </div>
         ))}
+        {isAddingVersion && <SkillList skills={props.skills} />}
       </div>
     </DragDropContext>
   );
